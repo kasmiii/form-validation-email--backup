@@ -1,0 +1,140 @@
+
+<form class="example-form" [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+  <mat-form-field class="example-chip-list">
+    <mat-label>CC</mat-label>
+    <mat-chip-grid #chipGridCC aria-label="Enter CC">
+      <mat-chip-row
+        *ngFor="let cc of CCs"
+        (removed)="removeAddress('cc',cc)"
+        [editable]="true"
+        (edited)="editAddress('cc',cc, $event)"
+        [aria-description]="'press enter to edit ' + cc"
+      >
+        {{cc}}
+        <button matChipRemove [attr.aria-label]="'remove ' + cc">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      <input
+        placeholder="New cc..."
+        [matChipInputFor]="chipGridCC"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlurCC"
+        (matChipInputTokenEnd)="addAddress('cc',$event)"
+      />
+    </mat-chip-grid>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <mat-label>BCC</mat-label>
+    <mat-chip-grid #chipGridBCC aria-label="Enter BCC">
+      <mat-chip-row
+        *ngFor="let bcc of BCCs"
+        (removed)="removeAddress('bcc',bcc)"
+        [editable]="true"
+        (edited)="editAddress('bcc',bcc, $event)"
+        [aria-description]="'press enter to edit ' + bcc"
+      >
+        {{bcc}}
+        <button matChipRemove [attr.aria-label]="'remove ' + bcc">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      <input
+        placeholder="New bcc..."
+        [matChipInputFor]="chipGridBCC"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlurBCC"
+        (matChipInputTokenEnd)="addAddress('bcc',$event)"
+      />
+    </mat-chip-grid>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Object</mat-label>
+    <input type="text" matInput formControlName="objectControl" />
+    <!--<mat-error>Errors appear instantly!</mat-error>-->
+    <!--<mat-error *ngIf="emailForm.value['objectControl'].hasError('required')"
+      >Email Object is required.</mat-error
+    >
+    <mat-error *ngIf="emailForm.get('objectControl').hasError('maxlength')"
+      >Email Object cannot exceed 50 characters.</mat-error
+    >-->
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Leave a comment</mat-label>
+    <textarea matInput formControlName="commentControl"></textarea>
+  </mat-form-field>
+
+  <div>
+    <input
+      type="file"
+      (change)="onFileSelected($event)"
+      #fileInput
+      style="display: none"
+      multiple
+    />
+    <button
+      mat-raised-button
+      mat-icon-button
+      color="primary"
+      (click)="fileInput.click()"
+    >
+      <mat-icon>attach_file</mat-icon>
+    </button>
+  </div>
+
+  <mat-chip-list>
+    <mat-chip
+      *ngFor="let file of selectedFiles"
+      [removable]="true"
+      (removed)="removeFile(file)"
+    >
+      {{ file.name }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+
+  <button
+    type="submit"
+    [disabled]="this.emailForm.invalid"
+    mat-raised-button
+    color="primary"
+  >
+    Send Email
+  </button>
+</form>
+
+<!--<div>
+  <input
+    type="file"
+    (change)="onFileSelected($event)"
+    #fileInput
+    style="display: none"
+    multiple
+  />
+  <button
+    mat-raised-button
+    mat-icon-button
+    color="primary"
+    (click)="fileInput.click()"
+  >
+    <mat-icon>attach_file</mat-icon>
+  </button>
+</div>
+
+<mat-chip-list>
+  <mat-chip
+    *ngFor="let file of selectedFiles"
+    [removable]="true"
+    (removed)="removeFile(file)"
+  >
+    {{ file.name }}
+    <mat-icon matChipRemove>cancel</mat-icon>
+  </mat-chip>
+</mat-chip-list>-->
+
+<!-- Copyright 2019 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
